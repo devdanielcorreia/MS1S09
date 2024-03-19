@@ -3,9 +3,11 @@ package com.m1s9.exerciciosemana9.controller;
 import com.m1s9.exerciciosemana9.model.Emprestimo;
 import com.m1s9.exerciciosemana9.repository.EmprestimoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +48,18 @@ public class EmprestimoController {
         emprestimoRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{id}/dataDevolucao")
+    public ResponseEntity<?> atualizarDataDevolucaoEmprestimo(@PathVariable Long id, @RequestBody @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate dataDevolucao) {
+        int updatedRows = emprestimoRepository.updateDataDevolucaoEmprestimo(id, dataDevolucao);
+        if (updatedRows > 0) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
+
 
 
 

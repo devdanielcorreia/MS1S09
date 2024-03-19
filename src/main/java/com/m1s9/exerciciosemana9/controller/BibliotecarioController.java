@@ -46,7 +46,18 @@ public class BibliotecarioController {
         bibliotecarioRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{id}/email")
+    public ResponseEntity<?> atualizarEmailBibliotecario(@PathVariable Long id, @RequestBody String email) {
+        int updatedRows = bibliotecarioRepository.updateEmailBibliotecario(id, email);
+        if (updatedRows > 0) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
+
 
 
 

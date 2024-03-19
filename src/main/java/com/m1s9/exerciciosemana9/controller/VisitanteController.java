@@ -41,11 +41,21 @@ public class VisitanteController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarVisitante(@PathVariable Long id) {
         if (!visitanteRepository.existsById(id)) {
-            return ResponseEntity.notFound
-                    ().build();
+            return ResponseEntity.notFound().build();
         }
         visitanteRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{id}/nome")
+    public ResponseEntity<?> atualizarNomeVisitante(@PathVariable Long id, @RequestBody String nome) {
+        int updatedRows = visitanteRepository.updateNomeVisitante(id, nome);
+        if (updatedRows > 0) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
+
 

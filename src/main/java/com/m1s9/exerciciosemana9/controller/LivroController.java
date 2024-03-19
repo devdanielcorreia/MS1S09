@@ -46,7 +46,18 @@ public class LivroController {
         livroRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{id}/titulo")
+    public ResponseEntity<Void> atualizarTituloLivro(@PathVariable Long id, @RequestBody String titulo) {
+        int updatedRows = livroRepository.updateTituloLivro(id, titulo);
+        if (updatedRows > 0) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
+
 
 
 

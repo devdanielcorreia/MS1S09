@@ -46,7 +46,18 @@ public class MembroController {
         membroRepository.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{id}/nome")
+    public ResponseEntity<?> atualizarNomeMembro(@PathVariable Long id, @RequestBody String nome) {
+        int updatedRows = membroRepository.updateNomeMembro(id, nome);
+        if (updatedRows > 0) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
+
 
 
 
