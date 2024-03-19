@@ -22,14 +22,12 @@ public class MembroController {
         return ResponseEntity.ok(novoMembro);
     }
 
-    // Endpoint para listar todos os membros
     @GetMapping
     public ResponseEntity<List<Membro>> listarTodosOsMembros() {
         List<Membro> membros = membroRepository.findAll();
         return ResponseEntity.ok(membros);
     }
 
-    // Endpoint para buscar um membro por ID
     @GetMapping("/{id}")
     public ResponseEntity<Membro> buscarMembroPorId(@PathVariable Long id) {
         Optional<Membro> membro = membroRepository.findById(id);
@@ -39,7 +37,17 @@ public class MembroController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarMembro(@PathVariable Long id) {
+        if (!membroRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        membroRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 }
+
 
 
 

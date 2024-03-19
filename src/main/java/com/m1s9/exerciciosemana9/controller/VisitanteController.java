@@ -22,14 +22,12 @@ public class VisitanteController {
         return ResponseEntity.ok(novoVisitante);
     }
 
-    // Endpoint para listar todos os visitantes
     @GetMapping
     public ResponseEntity<List<Visitante>> listarTodosOsVisitantes() {
         List<Visitante> visitantes = visitanteRepository.findAll();
         return ResponseEntity.ok(visitantes);
     }
 
-    // Endpoint para buscar um visitante por ID
     @GetMapping("/{id}")
     public ResponseEntity<Visitante> buscarVisitantePorId(@PathVariable Long id) {
         Optional<Visitante> visitante = visitanteRepository.findById(id);
@@ -38,6 +36,16 @@ public class VisitanteController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarVisitante(@PathVariable Long id) {
+        if (!visitanteRepository.existsById(id)) {
+            return ResponseEntity.notFound
+                    ().build();
+        }
+        visitanteRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }
 

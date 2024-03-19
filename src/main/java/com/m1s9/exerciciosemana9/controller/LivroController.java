@@ -22,14 +22,12 @@ public class LivroController {
         return ResponseEntity.ok(novoLivro);
     }
 
-    // Endpoint para listar todos os livros
     @GetMapping
     public ResponseEntity<List<Livro>> listarTodosOsLivros() {
         List<Livro> livros = livroRepository.findAll();
         return ResponseEntity.ok(livros);
     }
 
-    // Endpoint para buscar um livro por ID
     @GetMapping("/{id}")
     public ResponseEntity<Livro> buscarLivroPorId(@PathVariable Long id) {
         Optional<Livro> livro = livroRepository.findById(id);
@@ -39,6 +37,16 @@ public class LivroController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarLivro(@PathVariable Long id) {
+        if (!livroRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        livroRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 }
+
 
 

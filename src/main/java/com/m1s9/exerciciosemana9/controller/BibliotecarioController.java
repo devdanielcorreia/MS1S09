@@ -22,14 +22,12 @@ public class BibliotecarioController {
         return ResponseEntity.ok(novoBibliotecario);
     }
 
-    // Endpoint para listar todos os bibliotecários
     @GetMapping
     public ResponseEntity<List<Bibliotecario>> listarTodosOsBibliotecarios() {
         List<Bibliotecario> bibliotecarios = bibliotecarioRepository.findAll();
         return ResponseEntity.ok(bibliotecarios);
     }
 
-    // Endpoint para buscar um bibliotecário por ID
     @GetMapping("/{id}")
     public ResponseEntity<Bibliotecario> buscarBibliotecarioPorId(@PathVariable Long id) {
         Optional<Bibliotecario> bibliotecario = bibliotecarioRepository.findById(id);
@@ -39,6 +37,16 @@ public class BibliotecarioController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletarBibliotecario(@PathVariable Long id) {
+        if (!bibliotecarioRepository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        bibliotecarioRepository.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
 }
+
 
 
