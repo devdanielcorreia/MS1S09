@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/membros")
 public class MembroController {
@@ -18,6 +21,25 @@ public class MembroController {
         Membro novoMembro = membroRepository.save(membro);
         return ResponseEntity.ok(novoMembro);
     }
+
+    // Endpoint para listar todos os membros
+    @GetMapping
+    public ResponseEntity<List<Membro>> listarTodosOsMembros() {
+        List<Membro> membros = membroRepository.findAll();
+        return ResponseEntity.ok(membros);
+    }
+
+    // Endpoint para buscar um membro por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Membro> buscarMembroPorId(@PathVariable Long id) {
+        Optional<Membro> membro = membroRepository.findById(id);
+        if (membro.isPresent()) {
+            return ResponseEntity.ok(membro.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
+
 
 

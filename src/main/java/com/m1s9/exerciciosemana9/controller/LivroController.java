@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/livro")
 public class LivroController {
@@ -18,5 +21,24 @@ public class LivroController {
         Livro novoLivro = livroRepository.save(livro);
         return ResponseEntity.ok(novoLivro);
     }
+
+    // Endpoint para listar todos os livros
+    @GetMapping
+    public ResponseEntity<List<Livro>> listarTodosOsLivros() {
+        List<Livro> livros = livroRepository.findAll();
+        return ResponseEntity.ok(livros);
+    }
+
+    // Endpoint para buscar um livro por ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Livro> buscarLivroPorId(@PathVariable Long id) {
+        Optional<Livro> livro = livroRepository.findById(id);
+        if (livro.isPresent()) {
+            return ResponseEntity.ok(livro.get());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
+
 
